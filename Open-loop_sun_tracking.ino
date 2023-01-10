@@ -402,7 +402,7 @@ void loop()
    dataFile.print(now.hour()); dataFile.print(":"); dataFile.print(now.minute()); dataFile.print(":"); dataFile.println(now.second());
    dataFile.flush();
 // moving stepper motors every 30 minutes so that panel face toward sun at all time
-    if (now.minute()==0)
+    if ((now.minute()%30) == 0)
     {
       digitalWrite(RELAY9,HIGH);
       Hour = now.hour();
@@ -418,29 +418,6 @@ void loop()
       Ys = sign*fabs(acos((cos(tetha)*sin(phi)-sin(delta))/(sin(tetha)*cos(phi))));
       tetha = tetha * 360.0/( 2.0*3.14 );
       Ys = Ys * 360.0/( 2.0*3.14 );
-      StepperDown.step((Ys-Ys1)*steps1);
-      StepperUp.step((tetha-tetha1)*steps2);
-      Ys1 = Ys;
-      tetha1 = tetha;
-      delay(60000);
-    } 
-
-    if (now.minute()==30)
-    {
-      digitalWrite(RELAY9,HIGH);
-      Hour = now.hour();
-      Minute = now.minute();
-      Second = now.second();
-      n = 169;
-      delta = ( 23.45 * sin( 360.0 * (284.0+n)/365.0 * 2.0 * 3.14/360.0)) * 2.0 * 3.14/360.0;
-      w = ((Hour-13.0) * 15.0 + (Minute-5.0) * 15.0/60.0) * 2.0 * 3.14/360.0;
-      phi=35.7 * 2.0 * 3.14/360.0;
-      tetha= acos(cos(phi)*cos(delta)*cos(w)+sin(phi)*sin(delta));
-      if(w>=0) sign = 1;
-      if(w<0)  sign = -1;
-      Ys = sign*fabs(acos((cos(tetha)*sin(phi)-sin(delta))/(sin(tetha)*cos(phi))));
-      tetha = tetha * 360.0/( 2.0 * 3.14 );
-      Ys = Ys * 360.0/( 2.0 * 3.14 );
       StepperDown.step((Ys-Ys1)*steps1);
       StepperUp.step((tetha-tetha1)*steps2);
       Ys1 = Ys;
