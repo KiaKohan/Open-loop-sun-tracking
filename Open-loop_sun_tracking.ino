@@ -1,3 +1,10 @@
+#include <Adafruit_ADS1X15.h>
+
+#include <Adafruit_BusIO_Register.h>
+#include <Adafruit_I2CDevice.h>
+#include <Adafruit_I2CRegister.h>
+#include <Adafruit_SPIDevice.h>
+
 #include <Time.h>
 #include <Wire.h>
 #include "RTClib.h"
@@ -5,11 +12,10 @@
 #include <Stepper.h>
 #include <SPI.h>
 #include <SD.h>
-#include <Adafruit_ADS1015.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-Adafruit_ADS1115 ads1115(0x48);
+Adafruit_ADS1115 ads1115;
 
 const int stepsPerRevolution = 6400; 
 const int chipSelect = 53;
@@ -408,7 +414,7 @@ void loop()
       delta = ( 23.45 * sin( 360.0 * (284.0+n) /365.0 * 2.0 * 3.14/360.0)) * 2.0 * 3.14/360.0;
       w =(( Hour-13.0 ) * 15.0 + ( Minute-5.0 ) * 15.0/60.0 ) * 2.0 * 3.14/360.0;
       phi = 35.7 * 2.0 * 3.14/360.0;
-      tetha = acos( os(phi)*cos(delta)*cos(w)+sin(phi)*sin(delta));
+      tetha = acos(cos(phi)*cos(delta)*cos(w)+sin(phi)*sin(delta));
       if(w>=0) sign = 1;
       if(w<0)  sign = -1;
       Ys = sign*fabs(acos((cos(tetha)*sin(phi)-sin(delta))/(sin(tetha)*cos(phi))));
