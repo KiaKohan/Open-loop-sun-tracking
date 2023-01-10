@@ -1,10 +1,8 @@
 #include <Adafruit_ADS1X15.h>
-
 #include <Adafruit_BusIO_Register.h>
 #include <Adafruit_I2CDevice.h>
 #include <Adafruit_I2CRegister.h>
 #include <Adafruit_SPIDevice.h>
-
 #include <Time.h>
 #include <Wire.h>
 #include "RTClib.h"
